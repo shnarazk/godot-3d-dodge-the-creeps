@@ -1,15 +1,22 @@
-[gd_scene load_steps=10 format=3 uid="uid://bq7lvohruu2j5"]
+[gd_scene load_steps=17 format=3 uid="uid://bq7lvohruu2j5"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
 [ext_resource type="PackedScene" path="res://Player.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://Mob.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://x5h3g8bnw66b" path="res://art/snow_03_diff_1k.jpg" id="3_0sako"]
 [ext_resource type="Script" path="res://ScoreLabel.gd" id="6"]
-[ext_resource type="Theme" path="res://ui_theme.tres" id="7"]
+[ext_resource type="Texture2D" uid="uid://402ptumneh2h" path="res://art/satara_night_no_lamps_1k.exr" id="6_mv01e"]
+[ext_resource type="Theme" uid="uid://crtonod8i0405" path="res://ui_theme.tres" id="7"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(60, 2, 60)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k3vpc"]
+albedo_texture = ExtResource("3_0sako")
+uv1_scale = Vector3(4, 4, 4)
+
 [sub_resource type="BoxMesh" id="2"]
+material = SubResource("StandardMaterial3D_k3vpc")
 size = Vector3(60, 2, 60)
 
 [sub_resource type="CylinderMesh" id="3"]
@@ -20,6 +27,28 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_31my3"]
+panorama = ExtResource("6_mv01e")
+
+[sub_resource type="Sky" id="Sky_t4xtv"]
+sky_material = SubResource("PanoramaSkyMaterial_31my3")
+radiance_size = 2
+
+[sub_resource type="Environment" id="Environment_tdudb"]
+background_mode = 2
+background_color = Color(1, 1, 1, 1)
+background_energy_multiplier = 0.1
+sky = SubResource("Sky_t4xtv")
+ambient_light_source = 2
+ambient_light_color = Color(0.305882, 0.498039, 0.447059, 1)
+ambient_light_sky_contribution = 0.97
+ambient_light_energy = 0.05
+reflected_light_source = 1
+ssao_enabled = true
+ssao_intensity = 10.55
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ik565"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1")
@@ -38,9 +67,18 @@ mesh = SubResource("2")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.5, -0.777049, 0.382355, 0, 0.441506, 0.897258, -0.866025, -0.448629, 0.220753, 0, 12.5592, 14.7757)
+visible = false
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("2")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4, 0)
+light_energy = 5.0
+shadow_enabled = true
+distance_fade_enabled = true
+spot_range = 7.0
+spot_angle = 65.0
 
 [node name="CameraPivot" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0.183514, 0, 0)
@@ -89,6 +127,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("7")
 
 [node name="ScoreLabel" type="Label" parent="UserInterface"]
@@ -106,6 +146,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 0.447059)
 
 [node name="Label" type="Label" parent="UserInterface/Retry"]
@@ -113,6 +155,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Press Enter to retry"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tdudb")
+camera_attributes = SubResource("CameraAttributesPhysical_ik565")
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]

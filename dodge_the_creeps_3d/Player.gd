@@ -11,7 +11,7 @@ signal hit
 # The downward acceleration when in the air, in meters per second per second.
 @export var fall_acceleration = 75
 
-var velocity = Vector3.ZERO
+#var velocity = Vector3.ZERO
 
 
 func _physics_process(delta):
@@ -56,11 +56,10 @@ func _physics_process(delta):
 	# If there are no "slides" this frame, the loop below won't run.
 	for index in range(get_slide_collision_count()):
 		var collision = get_slide_collision(index)
-		if collision.collider.is_in_group("mob"):
-			var mob = collision.collider
-			if Vector3.UP.dot(collision.normal) > 0.1:
-				mob.squash()
-				velocity.y = bounce_impulse
+		var mob = collision.get_collider()
+		if mob.is_in_group("mob") and Vector3.UP.dot(collision.get_normal()) > 0.1:
+			mob.squash()
+			velocity.y = bounce_impulse
 
 	# This makes the character follow a nice arc when jumping
 	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse

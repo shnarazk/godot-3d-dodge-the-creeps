@@ -23,6 +23,8 @@ func _on_MobTimer_timeout():
 	mob_spawn_location.progress_ratio = randf()
 
 	# Communicate the spawn location and the player's location to the mob.
+	if $Player == null:
+		return
 	var player_position = $Player.transform.origin
 	mob.initialize(mob_spawn_location.position, player_position)
 

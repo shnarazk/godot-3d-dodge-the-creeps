@@ -8,7 +8,7 @@ signal squashed
 # Maximum speed of the mob in meters per second.
 @export var max_speed = 18
 
-var velocity = Vector3.ZERO
+#var velocity = Vector3.ZERO
 
 
 func _physics_process(_delta):
