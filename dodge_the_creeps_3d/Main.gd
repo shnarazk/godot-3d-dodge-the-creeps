@@ -37,3 +37,4 @@ func _on_MobTimer_timeout():
 func _on_Player_hit():
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
+	print("here")

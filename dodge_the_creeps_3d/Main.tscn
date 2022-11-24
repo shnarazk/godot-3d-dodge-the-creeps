@@ -113,7 +113,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 curve = SubResource("5")
 
 [node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
-transform = Transform3D(-0.491811, 0, -0.870701, 0, 1, 0, 0.870701, 0, -0.491811, 14, 0, -15)
+transform = Transform3D(4.60545e-06, 0, -0.999999, 0, 1, 0, 0.999999, 0, 4.60545e-06, 14, 0, -15)
 rotation_mode = 1
 cubic_interp = false
 loop = false
@@ -141,7 +141,6 @@ text = "Score: 0"
 script = ExtResource("6")
 
 [node name="Retry" type="ColorRect" parent="UserInterface"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -163,4 +162,5 @@ text = "Press Enter to retry"
 environment = SubResource("Environment_tdudb")
 camera_attributes = SubResource("CameraAttributesPhysical_ik565")
 
+[connection signal="hit" from="Player" to="." method="_on_Player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
