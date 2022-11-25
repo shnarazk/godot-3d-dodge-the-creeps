@@ -13,6 +13,9 @@ signal hit
 
 #var velocity = Vector3.ZERO
 
+@export var jump_trail_timer = 0
+@export var jump_light_timer = 0
+
 
 func _physics_process(delta):
 	var direction = Vector3.ZERO
@@ -39,6 +42,19 @@ func _physics_process(delta):
 	# Jumping.
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y += jump_impulse
+		jump_trail_timer = 5
+		jump_light_timer = 100
+		$CPUParticles3D.emitting = true
+		$CPUParticles3D/SpotLight3D.light_energy = 10
+	if 0 < jump_trail_timer:
+		jump_trail_timer -= 1
+	else:
+		$CPUParticles3D.emitting = false
+	if 0 < jump_light_timer:
+		jump_light_timer -= 1
+		$CPUParticles3D/SpotLight3D.light_energy *= 0.96
+	else:
+		$CPUParticles3D/SpotLight3D.light_energy = 0
 
 	# We apply gravity every frame so the character always collides with the ground when moving.
 	# This is necessary for the is_on_floor() function to work as a body can always detect

@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bq7lvohruu2j5"]
+[gd_scene load_steps=19 format=3 uid="uid://bq7lvohruu2j5"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
-[ext_resource type="PackedScene" path="res://Player.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://Mob.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://c2av6pvrim2bb" path="res://Player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://ci02eyfggbnq8" path="res://Mob.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://x5h3g8bnw66b" path="res://art/snow_03_diff_1k.jpg" id="3_0sako"]
 [ext_resource type="Script" path="res://ScoreLabel.gd" id="6"]
 [ext_resource type="Texture2D" uid="uid://402ptumneh2h" path="res://art/satara_night_no_lamps_1k.exr" id="6_mv01e"]
@@ -18,6 +18,16 @@ uv1_scale = Vector3(4, 4, 4)
 [sub_resource type="BoxMesh" id="2"]
 material = SubResource("StandardMaterial3D_k3vpc")
 size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4t8s0"]
+emission_enabled = true
+emission = Color(1, 0.952941, 0.0196078, 1)
+disable_receive_shadows = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_g6jhg"]
+material = SubResource("StandardMaterial3D_4t8s0")
+radius = 0.3
+height = 0.6
 
 [sub_resource type="CylinderMesh" id="3"]
 
@@ -38,15 +48,20 @@ radiance_size = 2
 [sub_resource type="Environment" id="Environment_tdudb"]
 background_mode = 2
 background_color = Color(1, 1, 1, 1)
-background_energy_multiplier = 0.1
+background_energy_multiplier = 0.4
 sky = SubResource("Sky_t4xtv")
 ambient_light_source = 2
 ambient_light_color = Color(0.305882, 0.498039, 0.447059, 1)
 ambient_light_sky_contribution = 0.97
-ambient_light_energy = 0.05
+ambient_light_energy = 0.15
 reflected_light_source = 1
 ssao_enabled = true
 ssao_intensity = 10.55
+glow_enabled = true
+glow_intensity = 1.64
+glow_strength = 0.83
+glow_bloom = 0.2
+glow_blend_mode = 0
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ik565"]
 
@@ -68,16 +83,34 @@ mesh = SubResource("2")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.5, -0.777049, 0.382355, 0, 0.441506, 0.897258, -0.866025, -0.448629, 0.220753, 0, 12.5592, 14.7757)
 visible = false
+light_color = Color(0.243137, 0.32549, 0.447059, 1)
+light_energy = 0.1
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("2")]
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4, 0)
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.147178, 0)
+amount = 32
+speed_scale = 3.0
+lifetime_randomness = 0.2
+mesh = SubResource("SphereMesh_g6jhg")
+emission_shape = 1
+emission_sphere_radius = 0.6
+direction = Vector3(0, 1, 0)
+spread = 180.0
+flatness = 0.57
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.8
+initial_velocity_max = 5.0
+angle_max = 360.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Player/CPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.85282, 0)
 light_energy = 5.0
 shadow_enabled = true
 distance_fade_enabled = true
-spot_range = 7.0
+spot_range = 12.0
 spot_angle = 65.0
 
 [node name="CameraPivot" type="Marker3D" parent="."]
@@ -142,21 +175,32 @@ script = ExtResource("6")
 
 [node name="Retry" type="ColorRect" parent="UserInterface"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.447059)
 
 [node name="Label" type="Label" parent="UserInterface/Retry"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -189.0
+offset_top = -23.0
+offset_right = -33.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(3, 3)
 text = "Press Enter to retry"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tdudb")
