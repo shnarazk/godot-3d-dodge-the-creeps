@@ -12,7 +12,8 @@ func _unhandled_input(event):
 	if (event.is_action_pressed("ui_accept") or event.is_action_pressed("replay")) and $UserInterface/Retry.visible:
 		# warning-ignore:return_value_discarded
 		get_tree().reload_current_scene()
-
+	elif (event.is_action_pressed("ui_end") and $UserInterface/Retry.visible:
+		get_tree().get_root().propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 func _on_MobTimer_timeout():
 	# Create a new instance of the Mob scene.
