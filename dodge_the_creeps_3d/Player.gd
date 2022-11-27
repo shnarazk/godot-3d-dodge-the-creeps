@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 signal hit
+signal squash
 
 # How fast the player moves in meters per second.
 @export var speed = 14
@@ -45,16 +46,16 @@ func _physics_process(delta):
 		jump_trail_timer = 5
 		jump_light_timer = 100
 		$CPUParticles3D.emitting = true
-		$CPUParticles3D/SpotLight3D.light_energy = 10
+		$OmniLight3D.light_energy = 10
 	if 0 < jump_trail_timer:
 		jump_trail_timer -= 1
 	else:
 		$CPUParticles3D.emitting = false
 	if 0 < jump_light_timer:
 		jump_light_timer -= 1
-		$CPUParticles3D/SpotLight3D.light_energy *= 0.96
+		$OmniLight3D.light_energy *= 0.96
 	else:
-		$CPUParticles3D/SpotLight3D.light_energy = 0
+		$OmniLight3D.light_energy = 0
 
 	# We apply gravity every frame so the character always collides with the ground when moving.
 	# This is necessary for the is_on_floor() function to work as a body can always detect
@@ -74,6 +75,7 @@ func _physics_process(delta):
 		var collision = get_slide_collision(index)
 		var mob = collision.get_collider()
 		if mob.is_in_group("mob") and Vector3.UP.dot(collision.get_normal()) > 0.1:
+			emit_signal("squash")
 			mob.squash()
 			velocity.y = bounce_impulse
 

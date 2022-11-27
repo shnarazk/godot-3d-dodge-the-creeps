@@ -9,10 +9,12 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if (event.is_action_pressed("ui_accept") or event.is_action_pressed("replay")) and $UserInterface/Retry.visible:
+	if not $UserInterface/Retry.visible:
+		return
+	if event.is_action_pressed("replay"):
 		# warning-ignore:return_value_discarded
 		get_tree().reload_current_scene()
-	if (event.is_action_pressed("ui_end") or event.is_action_pressed("ui_cancel")) and $UserInterface/Retry.visible:
+	elif event.is_action_pressed("ui_end") or event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 
 func _on_MobTimer_timeout():
@@ -38,4 +40,3 @@ func _on_MobTimer_timeout():
 func _on_Player_hit():
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
-	print("here")
