@@ -2,7 +2,7 @@ extends Camera3D
 
 @export var lerp_speed = 3.0
 @export var target_path: NodePath
-@export var offset = Vector3(8, 9, 8)
+@export var offset = Vector3(-8, 12, 8)
 
 var target = null
 var wobble_count = 0

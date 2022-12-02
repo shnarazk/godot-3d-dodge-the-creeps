@@ -31,6 +31,7 @@ MusicPlayer="*res://MusicPlayer.tscn"
 
 [display]
 
+window/size/mode=3
 window/size/width=720
 window/size/height=540
 window/size/test_width=480

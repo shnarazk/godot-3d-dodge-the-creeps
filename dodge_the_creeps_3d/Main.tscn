@@ -161,7 +161,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 curve = SubResource("5")
 
 [node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
-transform = Transform3D(4.60545e-06, 0, -0.999999, 0, 1, 0, 0.999999, 0, 4.60545e-06, 14, 0, -15)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 14, 0, -15)
 rotation_mode = 1
 cubic_interp = false
 loop = false
@@ -185,7 +185,7 @@ offset_left = 20.0226
 offset_top = 16.0181
 offset_right = 126.023
 offset_bottom = 71.0181
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 36
 text = "Score: 0"
 script = ExtResource("6")
 

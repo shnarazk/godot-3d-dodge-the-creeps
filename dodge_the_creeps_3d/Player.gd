@@ -19,15 +19,23 @@ signal squash
 
 
 func _physics_process(delta):
+	if position.y < -10:
+		die()
 	var direction = Vector3.ZERO
+	#direction.x = 0.1
 	if Input.is_action_pressed("move_right"):
-		direction.x += 1
+		# direction.x += 1
+		rotation.y += 0.05
 	if Input.is_action_pressed("move_left"):
-		direction.x -= 1
-	if Input.is_action_pressed("move_back"):
-		direction.z += 1
-	if Input.is_action_pressed("move_forward"):
-		direction.z -= 1
+		# direction.x -= 1
+		rotation.y -= 0.05
+	direction.x = cos(rotation.y)
+	direction.z = sin(rotation.y)
+
+	#if Input.is_action_pressed("move_back"):
+	#	direction.z += 1
+	#if Input.is_action_pressed("move_forward"):
+	#	direction.z -= 1
 
 	if direction != Vector3.ZERO:
 		# In the lines below, we turn the character when moving and make the animation play faster.
