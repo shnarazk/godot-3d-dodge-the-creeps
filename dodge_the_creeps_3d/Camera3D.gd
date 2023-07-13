@@ -23,7 +23,7 @@ func _physics_process(delta):
 		var scale = wobble_scale + wobble_count
 		o += Vector3(scale * (randf() - 0.5), scale * (randf() - 0.5), scale * (randf() - 0.5))
 	var target_xform = target.global_transform.translated_local(o)
-	global_transform = global_transform.interpolate_with(target_xform, lerp_speed * delta) 
+	global_transform = global_transform.interpolate_with(target_xform, lerp_speed * delta)
 	look_at(target.global_transform.origin, target.transform.basis.y)
 
 
